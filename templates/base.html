@@ -35,7 +35,7 @@
     <!-- Menu lateral -->
     <aside class="sidebar" id="sidebar">
 
-        <a href="#" class="brand">
+        <a href="{{ url_for('inicio') }}" class="brand">
             <span class="brand-icon">
                 <i class="bi bi-graph-up-arrow"></i>
             </span>
@@ -46,25 +46,25 @@
 
         <nav class="nav flex-column sidebar-nav">
 
-            <a href="#"
+            <a href="{{ url_for('inicio') }}"
                class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">
                 <i class="bi bi-house-door"></i>
                 <span>Início</span>
             </a>
 
-            <a href="#"
+            <a href="{{ url_for('cadastrar') }}"
                class="nav-link {% if request.endpoint == 'cadastrar_operacao' %}active{% endif %}">
                 <i class="bi bi-plus-circle"></i>
                 <span>Cadastrar operação</span>
             </a>
 
-            <a href="#"
+            <a href="{{ url_for('listar_operacoes') }}"
                class="nav-link {% if request.endpoint == 'listar_operacoes' %}active{% endif %}">
                 <i class="bi bi-list-ul"></i>
                 <span>Operações</span>
             </a>
 
-            <a href="#"
+            <a href="{{ url_for('pesquisar_operacao') }}"
                class="nav-link {% if request.endpoint == 'pesquisar_operacao' %}active{% endif %}">
                 <i class="bi bi-search"></i>
                 <span>Pesquisar operação</span>
