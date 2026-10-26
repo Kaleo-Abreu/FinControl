@@ -1,0 +1,87 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Editar operação | FinControl{% endblock %}
+
+{% block page_title %}Editar operação{% endblock %}
+
+{% block content %}
+
+<div class="content-card">
+    <h2 class="section-title mb-4">Editar operação</h2>
+
+    <div class="alert alert-info">
+        ID da operação: <strong>{{ operacao["id"] }}</strong>
+        <br>
+        O ID não pode ser alterado.
+    </div>
+
+    {% if erros %}
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                {% for erro in erros %}
+                    <li>{{ erro }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form action="{{ url_for('salvar_edicao', id_operacao=operacao['id']) }}"
+          method="POST">
+
+        <div class="mb-3">
+            <label for="data" class="form-label">Data da operação</label>
+            <input type="date" class="form-control" id="data" name="data"
+                   value="{{ operacao['data'] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="ativo" class="form-label">Código do ativo</label>
+            <input type="text" class="form-control" id="ativo" name="ativo"
+                   value="{{ operacao['ativo'] }}" maxlength="6" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantidade" class="form-label">Quantidade</label>
+            <input type="number" class="form-control" id="quantidade"
+                   name="quantidade" min="1" step="1"
+                   value="{{ operacao['quantidade'] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="valor_unitario" class="form-label">Valor unitário (R$)</label>
+            <input type="number" class="form-control" id="valor_unitario"
+                   name="valor_unitario" min="0.01" step="0.01"
+                   value="{{ operacao['valor_unitario'] }}" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="tipo_operacao" class="form-label">Tipo de operação</label>
+            <select class="form-select" id="tipo_operacao"
+                    name="tipo_operacao" required>
+                <option value="1"
+                    {% if operacao['tipo_operacao'] == 'compra' %}selected{% endif %}>
+                    Compra
+                </option>
+                <option value="2"
+                    {% if operacao['tipo_operacao'] == 'venda' %}selected{% endif %}>
+                    Venda
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary-custom">
+            <i class="bi bi-check-circle"></i>
+            Salvar alterações
+        </button>
+
+        <a href="{{ url_for('listar_operacoes') }}"
+           class="btn btn-outline-secondary">
+            Cancelar
+        </a>
+
+    </form>
+</div>
+
+{% endblock %}
+```

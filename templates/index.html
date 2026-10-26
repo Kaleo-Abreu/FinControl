@@ -1,0 +1,84 @@
+
+{% extends "base.html" %}
+
+{% block title %}Início | FinControl{% endblock %}
+
+{% block page_title %}Início{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h2 class="section-title">Visão geral</h2>
+    <p class="section-subtitle">
+        Acesse as funcionalidades do sistema de operações.
+    </p>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-md-6 col-xl-4">
+        <div class="content-card h-100">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="brand-icon">
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+                <h3 class="section-title mb-0">Nova operação</h3>
+            </div>
+
+            <p class="section-subtitle">
+                Registre uma compra ou venda de ativos.
+            </p>
+
+            <a href="{{ url_for('pagina_cadastro') }}"
+               class="btn btn-primary-custom">
+                Cadastrar
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-4">
+        <div class="content-card h-100">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="brand-icon">
+                    <i class="bi bi-list-ul"></i>
+                </div>
+                <h3 class="section-title mb-0">Operações</h3>
+            </div>
+
+            <p class="section-subtitle">
+                Consulte os registros e seus valores calculados.
+            </p>
+
+            <a href="{{ url_for('listar_operacoes') }}"
+               class="btn btn-outline-secondary">
+                Ver operações
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-4">
+        <div class="content-card h-100">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="brand-icon">
+                    <i class="bi bi-search"></i>
+                </div>
+                <h3 class="section-title mb-0">Pesquisar</h3>
+            </div>
+
+            <p class="section-subtitle">
+                Encontre operações por ID, ativo ou período.
+            </p>
+
+            <a href="{{ url_for('pesquisar_operacao') }}"
+               class="btn btn-outline-secondary">
+                Pesquisar
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

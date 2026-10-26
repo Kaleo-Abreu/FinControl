@@ -1,0 +1,477 @@
+
+/* ===========================
+   CONFIGURAÇÕES GERAIS
+=========================== */
+
+:root {
+    --primary: #244c68;
+    --primary-dark: #19384e;
+    --primary-light: #eaf1f6;
+    --accent: #399779;
+    --background: #f5f7fa;
+    --surface: #ffffff;
+    --text: #263746;
+    --muted: #788694;
+    --border: #e5eaf0;
+    --sidebar-width: 255px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ===========================
+   ESTRUTURA
+=========================== */
+
+.app-container {
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width);
+    padding: 26px 18px 18px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    transition: transform 0.25s ease;
+}
+
+.main-wrapper {
+    min-height: 100vh;
+    margin-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===========================
+   MARCA
+=========================== */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 0 0 42px 7px;
+    color: var(--primary-dark);
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.7px;
+}
+
+.brand:hover {
+    color: var(--primary);
+}
+
+.brand-icon {
+    display: grid;
+    width: 39px;
+    height: 39px;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--primary);
+    color: white;
+    font-size: 20px;
+}
+
+/* ===========================
+   NAVEGAÇÃO
+=========================== */
+
+.sidebar-label {
+    padding: 0 10px;
+    margin-bottom: 13px;
+    color: #9aa6b2;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 1.2px;
+}
+
+.sidebar-nav {
+    gap: 7px;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 46px;
+    padding: 12px 13px;
+    border-radius: 9px;
+    color: #647382;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-nav .nav-link i {
+    width: 21px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.sidebar-nav .nav-link:hover {
+    background: #f3f6f9;
+    color: var(--primary);
+}
+
+.sidebar-nav .nav-link.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 650;
+}
+
+/* ===========================
+   BLOCO INFORMATIVO
+=========================== */
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.sidebar-tip {
+    padding: 17px;
+    border: 1px solid #e7edf2;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.sidebar-tip > i {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-size: 22px;
+}
+
+.sidebar-tip p {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.sidebar-tip small {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* ===========================
+   CABEÇALHO
+=========================== */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 91px;
+    padding: 19px 34px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.topbar-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 1.3px;
+}
+
+.topbar-title {
+    margin: 4px 0 0;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.topbar-date {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.topbar-date i {
+    color: var(--primary);
+    font-size: 17px;
+}
+
+.menu-toggle {
+    display: none;
+    color: var(--primary);
+    font-size: 25px;
+}
+
+/* ===========================
+   CONTEÚDO
+=========================== */
+
+.page-content {
+    flex: 1;
+    width: 100%;
+    max-width: 1600px;
+    padding: 32px 34px;
+    margin: 0 auto;
+}
+
+.welcome-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    overflow: hidden;
+    padding: 35px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: var(--surface);
+}
+
+.welcome-label {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 1.3px;
+}
+
+.welcome-card h2 {
+    max-width: 530px;
+    margin: 12px 0;
+    color: var(--primary-dark);
+    font-size: clamp(23px, 3vw, 32px);
+    font-weight: 750;
+    letter-spacing: -1px;
+}
+
+.welcome-card p {
+    max-width: 490px;
+    margin-bottom: 23px;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+.welcome-icon {
+    display: grid;
+    flex-shrink: 0;
+    width: 125px;
+    height: 125px;
+    place-items: center;
+    border-radius: 28px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 65px;
+    transform: rotate(3deg);
+}
+
+.btn-primary-custom {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 17px;
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-primary-custom:hover {
+    border-color: var(--primary-dark);
+    background: var(--primary-dark);
+    color: white;
+}
+
+/* ===========================
+   COMPONENTES REUTILIZÁVEIS
+=========================== */
+
+.content-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+.section-title {
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.form-label {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.form-control,
+.form-select {
+    min-height: 43px;
+    border-color: #dce4eb;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #7e9fb5;
+    box-shadow: 0 0 0 3px rgba(36, 76, 104, 0.1);
+}
+
+.table {
+    vertical-align: middle;
+}
+
+.table thead th {
+    padding: 13px 15px;
+    background: #f6f8fa;
+    color: #687785;
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 15px;
+    border-color: var(--border);
+    font-size: 13px;
+}
+
+.table tbody tr:hover td {
+    background: #fafbfd;
+}
+
+.badge-compra {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e5f5ed;
+    color: #23764e;
+}
+
+.badge-venda {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #fff0e8;
+    color: #ad542e;
+}
+
+/* ===========================
+   RODAPÉ
+=========================== */
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 19px 34px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* ===========================
+   MENU RESPONSIVO
+=========================== */
+
+.sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+        box-shadow: 12px 0 35px rgba(20, 40, 60, 0.12);
+    }
+
+    .main-wrapper {
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: inline-block;
+    }
+
+    .sidebar-overlay.overlay-visible {
+        position: fixed;
+        inset: 0;
+        z-index: 1030;
+        display: block;
+        background: rgba(20, 35, 50, 0.35);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .topbar {
+        min-height: 78px;
+        padding: 15px 17px;
+    }
+
+    .topbar-title {
+        font-size: 18px;
+    }
+
+    .topbar-date {
+        display: none;
+    }
+
+    .page-content {
+        padding: 20px 15px;
+    }
+
+    .welcome-card {
+        padding: 24px 20px;
+    }
+
+    .welcome-icon {
+        display: none;
+    }
+
+    .welcome-card h2 {
+        font-size: 25px;
+    }
+
+    .content-card {
+        padding: 17px;
+    }
+
+    .footer {
+        flex-direction: column;
+        padding: 16px 20px;
+    }
+}

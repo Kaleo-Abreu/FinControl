@@ -1,0 +1,93 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Pesquisar operações | FinControl{% endblock %}
+
+{% block page_title %}Pesquisar operações{% endblock %}
+
+{% block content %}
+
+<div class="content-card mb-4">
+    <h2 class="section-title">Buscar operação</h2>
+
+    <form action="{{ url_for('pesquisar_operacao') }}" method="GET">
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Pesquisar por</label>
+            <select class="form-select" id="tipo" name="tipo">
+                <option value="id" {% if tipo == 'id' %}selected{% endif %}>ID</option>
+                <option value="ativo" {% if tipo == 'ativo' %}selected{% endif %}>Código do ativo</option>
+                <option value="periodo" {% if tipo == 'periodo' %}selected{% endif %}>Período de datas</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="termo" class="form-label">ID ou código do ativo</label>
+            <input type="text" class="form-control" id="termo" name="termo"
+                   value="{{ termo }}" placeholder="Ex.: 1000000000 ou PETR41">
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="data_inicio" class="form-label">Data inicial</label>
+                <input type="date" class="form-control" id="data_inicio"
+                       name="data_inicio" value="{{ data_inicio }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="data_fim" class="form-label">Data final</label>
+                <input type="date" class="form-control" id="data_fim"
+                       name="data_fim" value="{{ data_fim }}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary-custom">
+            <i class="bi bi-search"></i>
+            Pesquisar
+        </button>
+    </form>
+</div>
+
+{% if erro %}
+    <div class="alert alert-danger">{{ erro }}</div>
+{% endif %}
+
+{% if pesquisou and not erro %}
+    <div class="content-card">
+        <h2 class="section-title mb-3">Resultados</h2>
+
+        {% if operacoes %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Ativo</th>
+                            <th>Quantidade</th>
+                            <th>Tipo</th>
+                            <th>Valor líquido</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for operacao in operacoes %}
+                            <tr>
+                                <td>{{ operacao["id"] }}</td>
+                                <td>{{ operacao["data"] }}</td>
+                                <td>{{ operacao["ativo"] }}</td>
+                                <td>{{ operacao["quantidade"] }}</td>
+                                <td>{{ operacao["tipo_operacao"]|capitalize }}</td>
+                                <td>R$ {{ "%.2f"|format(operacao["valor_liquido"]) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="section-subtitle">Nenhuma operação encontrada.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% endblock %}
+```

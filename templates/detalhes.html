@@ -1,0 +1,29 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Detalhes da operação | FinControl{% endblock %}
+
+{% block page_title %}Detalhes da operação{% endblock %}
+
+{% block content %}
+
+<div class="content-card">
+    <h2 class="section-title mb-4">Informações da operação</h2>
+
+    <p><strong>ID:</strong> {{ operacao["id"] }}</p>
+    <p><strong>Data:</strong> {{ operacao["data"] }}</p>
+    <p><strong>Ativo:</strong> {{ operacao["ativo"] }}</p>
+    <p><strong>Quantidade:</strong> {{ operacao["quantidade"] }}</p>
+    <p><strong>Valor unitário:</strong> R$ {{ "%.2f"|format(operacao["valor_unitario"]) }}</p>
+    <p><strong>Tipo:</strong> {{ operacao["tipo_operacao"]|capitalize }}</p>
+    <p><strong>Valor bruto:</strong> R$ {{ "%.2f"|format(operacao["valor_bruto"]) }}</p>
+    <p><strong>Taxas:</strong> R$ {{ "%.2f"|format(operacao["taxas"]) }}</p>
+    <p><strong>Valor líquido:</strong> R$ {{ "%.2f"|format(operacao["valor_liquido"]) }}</p>
+
+    <a href="{{ url_for('listar_operacoes') }}" class="btn btn-outline-secondary">
+        Voltar para operações
+    </a>
+</div>
+
+{% endblock %}
+```

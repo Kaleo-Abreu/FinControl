@@ -1,0 +1,116 @@
+
+{% extends "base.html" %}
+
+{% block title %}Cadastrar operação | FinControl{% endblock %}
+
+{% block page_title %}Cadastrar operação{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h2 class="section-title">Nova operação</h2>
+    <p class="section-subtitle">
+        Preencha os dados para registrar uma compra ou venda de ativo.
+    </p>
+</div>
+
+<div class="content-card">
+    {% if erros %}
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                {% for erro in erros %}
+                    <li>{{ erro }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form action="{{ url_for('cadastrar') }}" method="POST">
+
+        <div class="mb-3">
+            <label for="data" class="form-label">Data da operação</label>
+            <input
+                type="date"
+                class="form-control"
+                id="data"
+                name="data"
+                value="{{ dados.get('data', '') }}"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="ativo" class="form-label">Código do ativo</label>
+            <input
+                type="text"
+                class="form-control"
+                id="ativo"
+                name="ativo"
+                value="{{ dados.get('ativo', '') }}"
+                placeholder="Ex.: PETR41"
+                maxlength="6"
+                required
+            >
+            <div class="form-text">
+                Quatro letras maiúsculas seguidas de um ou dois números.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantidade" class="form-label">Quantidade</label>
+            <input
+                type="number"
+                class="form-control"
+                id="quantidade"
+                name="quantidade"
+                min="1"
+                step="1"
+                value="{{ dados.get('quantidade', '') }}"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="valor_unitario" class="form-label">Valor unitário (R$)</label>
+            <input
+                type="number"
+                class="form-control"
+                id="valor_unitario"
+                name="valor_unitario"
+                min="0.01"
+                step="0.01"
+                value="{{ dados.get('valor_unitario', '') }}"
+                placeholder="Ex.: 12.50"
+                required
+            >
+        </div>
+
+        <div class="mb-4">
+            <label for="tipo_operacao" class="form-label">Tipo de operação</label>
+            <select
+                class="form-select"
+                id="tipo_operacao"
+                name="tipo_operacao"
+                required
+            >
+                <option value="">Selecione uma opção</option>
+                <option value="1">Compra</option>
+                <option value="2">Venda</option>
+            </select>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+            <button type="submit" class="btn btn-primary-custom">
+                <i class="bi bi-check-circle"></i>
+                Salvar operação
+            </button>
+
+            <a href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

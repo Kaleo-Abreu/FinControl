@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block title %}Cadastro concluído | FinControl{% endblock %}
+
+{% block page_title %}Resultado do cadastro{% endblock %}
+
+{% block content %}
+
+<div class="content-card">
+    <div class="alert alert-success mb-3">
+        <i class="bi bi-check-circle"></i>
+        {{ mensagem }}
+    </div>
+
+    <a href="{{ url_for('pagina_cadastro') }}" class="btn btn-primary-custom">
+        Cadastrar outra operação
+    </a>
+
+    <a href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">
+        Voltar ao início
+    </a>
+</div>
+
+{% endblock %}

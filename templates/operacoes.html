@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Operações | FinControl{% endblock %}
+
+{% block page_title %}Operações cadastradas{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <h2 class="section-title">Minhas operações</h2>
+
+    {% if operacoes %}
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Ativo</th>
+                        <th>Quantidade</th>
+                        <th>Valor unitário</th>
+                        <th>Tipo</th>
+                        <th>Valor bruto</th>
+                        <th>Taxas</th>
+                        <th>Valor líquido</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for operacao in operacoes %}
+                        <tr>
+                            <td>{{ operacao["id"] }}</td>
+                            <td>{{ operacao["data"] }}</td>
+                            <td>{{ operacao["ativo"] }}</td>
+                            <td>{{ operacao["quantidade"] }}</td>
+                            <td>R$ {{ "%.2f"|format(operacao["valor_unitario"]) }}</td>
+                            <td>{{ operacao["tipo_operacao"]|capitalize }}</td>
+                            <td>R$ {{ "%.2f"|format(operacao["valor_bruto"]) }}</td>
+                            <td>R$ {{ "%.2f"|format(operacao["taxas"]) }}</td>
+                            <td>R$ {{ "%.2f"|format(operacao["valor_liquido"]) }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ url_for('detalhes_operacao', id=operacao['id']) }}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       title="Ver detalhes"
+                                       aria-label="Ver detalhes">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+
+                                    <a href="{{ url_for('editar_operacao', id_operacao=operacao['id']) }}"
+                                       class="btn btn-sm btn-outline-warning"
+                                       title="Editar operação"
+                                       aria-label="Editar operação">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                    <form action="{{ url_for('excluir_operacao', id_operacao=operacao['id']) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Tem certeza de que deseja excluir esta operação?');">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Excluir operação"
+                                                aria-label="Excluir operação">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="section-subtitle">
+            Nenhuma operação cadastrada ainda.
+        </p>
+    {% endif %}
+
+    <a href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Voltar ao início
+    </a>
+</div>
+{% endblock %}
