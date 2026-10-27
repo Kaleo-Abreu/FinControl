@@ -33,10 +33,6 @@ def listar_operacoes():
 
     return render_template("operacoes.html", operacoes=operacoes)
 
-
-from daos.operacao_dao import OperacaoDAO
-
-
 def pesquisar_operacao():
     tipo = request.args.get("tipo", "id")
     termo = request.args.get("termo", "").strip()
@@ -65,8 +61,7 @@ def pesquisar_operacao():
         else:
             erro = "Informe duas datas válidas e em ordem."
 
-    return render_template(
-        "pesquisar.html",operacoes=operacoes,tipo=tipo,termo=termo,data_inicio=data_inicio,data_fim=data_fim,erro=erro,pesquisou=bool(termo or data_inicio or data_fim))
+    return render_template("pesquisar.html",operacoes=operacoes,tipo=tipo,termo=termo,data_inicio=data_inicio,data_fim=data_fim,erro=erro,pesquisou=bool(termo or data_inicio or data_fim))
 
 
 def detalhes_operacao():

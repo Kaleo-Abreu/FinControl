@@ -16,7 +16,7 @@ class OperacaoDAO:
             if resultado["maior_id"] is None:
                 novo_id = 1000000000
             else:
-                novo_id = resultado["maior_id"] + 1000000000
+                novo_id = resultado["maior_id"] + 1
 
             conexao.execute("""
                 INSERT INTO operacoes (

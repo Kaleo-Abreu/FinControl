@@ -18,10 +18,7 @@ def criar_tabela():
         conexao.execute("""
             CREATE TABLE IF NOT EXISTS operacoes (
                 id INTEGER PRIMARY KEY
-                    CHECK (
-                        id BETWEEN 1000000000 AND 9999999999
-                        AND id % 1000000000 = 0
-                    ),
+                    CHECK (id >= 1000000),
 
                 data TEXT NOT NULL,
                 ativo TEXT NOT NULL,
