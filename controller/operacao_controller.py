@@ -115,7 +115,7 @@ def salvar_edicao(id_operacao):
 
     operacao = Operacao(dados)
 
-    if not operacao.validate():
+    if not operacao.validate(id_ignorar=id_operacao):
         return render_template(
             "editar.html",
             operacao={**dados, "id": id_operacao},

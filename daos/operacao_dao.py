@@ -1,7 +1,4 @@
-
 from daos.conexao import conectar
-
-
 class OperacaoDAO:
 
     @staticmethod

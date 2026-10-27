@@ -13,7 +13,7 @@ class Operacao:
         self._dados = dict(dados) if dados else {}
         self.errors = []
 
-    def validate(self):
+    def validate(self, id_ignorar=None):
         self.errors = []
 
         data = self._dados.get("data")
@@ -21,11 +21,21 @@ class Operacao:
             self.errors.append("Informe uma data válida.")
 
         ativo = self._dados.get("ativo") or self._dados.get("codigo")
+
         if not codigo_valido(ativo):
             self.errors.append(
                 "O ativo deve ter quatro letras maiúsculas "
                 "seguidas de um ou dois números."
             )
+        else:
+            operacoes_existentes = OperacaoDAO.buscar_por_ativo(ativo)
+
+            for operacao_existente in operacoes_existentes:
+                if operacao_existente["id"] != id_ignorar:
+                    self.errors.append(
+                        "Esse código de ativo já está cadastrado."
+                    )
+                    break
 
         try:
             quantidade = int(self._dados.get("quantidade"))
@@ -33,7 +43,9 @@ class Operacao:
                 raise ValueError
         except (TypeError, ValueError):
             quantidade = 0
-            self.errors.append("A quantidade deve ser um inteiro positivo.")
+            self.errors.append(
+                "A quantidade deve ser um inteiro positivo."
+            )
 
         try:
             valor_unitario = float(
