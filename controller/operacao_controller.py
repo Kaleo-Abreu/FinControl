@@ -1,6 +1,5 @@
 
 from flask import render_template, request, redirect, url_for
-from daos.operacao_dao import OperacaoDAO
 from models.operacao import Operacao
 
 
@@ -29,7 +28,7 @@ def cadastrar():
     return render_template("cadastro.html", erros=operacao.errors,dados=dados)
 
 def listar_operacoes():
-    operacoes = OperacaoDAO.listar()
+    operacoes = Operacao.exibir_operacoes()
 
     return render_template("operacoes.html", operacoes=operacoes)
 
@@ -44,18 +43,18 @@ def pesquisar_operacao():
 
     if tipo == "id" and termo:
         try:
-            operacao = OperacaoDAO.buscar_por_id(int(termo))
+            operacao = Operacao.verificar_id(int(termo))
             if operacao:
                 operacoes = [operacao]
         except ValueError:
             erro = "Informe um ID numérico válido."
 
     elif tipo == "ativo" and termo:
-        operacoes = OperacaoDAO.buscar_por_ativo(termo.upper())
+        operacoes = Operacao.verificar_ativo(termo.upper())
 
     elif tipo == "periodo":
         if data_inicio and data_fim and data_inicio <= data_fim:
-            operacoes = OperacaoDAO.buscar_por_periodo(
+            operacoes = Operacao.verificar_periodo(
                 data_inicio, data_fim
             )
         else:
@@ -72,7 +71,7 @@ def detalhes_operacao():
     except ValueError:
         return render_template("erro.html", mensagem="ID Inválido."), 400
 
-    operacao = OperacaoDAO.buscar_por_id(id_operacao)
+    operacao = Operacao.verificar_id(id_operacao)
 
     if operacao is None:
         return render_template("erro.html", mensagem="Operação não encontrada."), 404
@@ -81,7 +80,7 @@ def detalhes_operacao():
 
 
 def editar_operacao(id_operacao):
-    operacao = OperacaoDAO.buscar_por_id(id_operacao)
+    operacao = Operacao.verificar_id(id_operacao)
 
     if operacao is None:
         return render_template(
@@ -97,7 +96,7 @@ def editar_operacao(id_operacao):
 
 
 def salvar_edicao(id_operacao):
-    operacao_atual = OperacaoDAO.buscar_por_id(id_operacao)
+    operacao_atual = Operacao.verificar_id(id_operacao)
 
     if operacao_atual is None:
         return render_template(
@@ -122,13 +121,13 @@ def salvar_edicao(id_operacao):
             erros=operacao.errors
         ), 400
 
-    OperacaoDAO.atualizar(id_operacao, operacao._dados)
+    Operacao.atualizar_operacao(id_operacao, operacao._dados)
 
     return redirect(url_for("listar_operacoes"))
 
 
 def excluir_operacao(id_operacao):
-    operacao = OperacaoDAO.buscar_por_id(id_operacao)
+    operacao = Operacao.verificar_id(id_operacao)
 
     if operacao is None:
         return render_template(
@@ -136,6 +135,6 @@ def excluir_operacao(id_operacao):
             mensagem="Operação não encontrada."
         ), 404
 
-    OperacaoDAO.excluir(id_operacao)
+    Operacao.excluir_operacao(id_operacao)
 
     return redirect(url_for("listar_operacoes"))

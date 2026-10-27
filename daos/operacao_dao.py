@@ -11,7 +11,7 @@ class OperacaoDAO:
             ).fetchone()
 
             if resultado["maior_id"] is None:
-                novo_id = 1000000000
+                novo_id = 1000000
             else:
                 novo_id = resultado["maior_id"] + 1
 

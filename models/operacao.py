@@ -97,7 +97,32 @@ class Operacao:
 
         OperacaoDAO.inserir(self._dados)
         return True
+    
+    @staticmethod
+    def exibir_operacoes():
+        return OperacaoDAO.listar()
+    
+    @staticmethod
+    def verificar_id(id_operacao):
+        return OperacaoDAO.buscar_por_id(id_operacao)
+    
+    @staticmethod
+    def verificar_ativo(ativo):
+        return OperacaoDAO.buscar_por_ativo(ativo)
+    
+    @staticmethod
+    def verificar_periodo(data_inicio, data_fim):
+        return OperacaoDAO.buscar_por_periodo(data_inicio, data_fim)
+    
+    @staticmethod
+    def atualizar_operacao(id_operacao, dados):
+        return OperacaoDAO.atualizar(id_operacao, dados)
+    
+    @staticmethod
+    def excluir_operacao(id_operacao):
+        return OperacaoDAO.excluir(id_operacao)
 
+    
     @property
     def id(self):
         return self._dados.get("id")
