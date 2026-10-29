@@ -32,35 +32,54 @@ def listar_operacoes():
 
     return render_template("operacoes.html", operacoes=operacoes)
 
+
 def pesquisar_operacao():
     tipo = request.args.get("tipo", "id")
     termo = request.args.get("termo", "").strip()
-    data_inicio = request.args.get("data_inicio", "")
-    data_fim = request.args.get("data_fim", "")
+    termo_ativo = request.args.get("termo_ativo", "").strip().upper()
+    data = request.args.get("data", "")
 
     operacoes = []
     erro = None
+    pesquisou = False
 
-    if tipo == "id" and termo:
-        try:
-            operacao = Operacao.verificar_id(int(termo))
-            if operacao:
-                operacoes = [operacao]
-        except ValueError:
-            erro = "Informe um ID numérico válido."
+    if tipo == "id":
+        pesquisou = bool(termo)
 
-    elif tipo == "ativo" and termo:
-        operacoes = Operacao.verificar_ativo(termo.upper())
+        if termo:
+            try:
+                operacao = Operacao.verificar_id(int(termo))
 
-    elif tipo == "periodo":
-        if data_inicio and data_fim and data_inicio <= data_fim:
-            operacoes = Operacao.verificar_periodo(
-                data_inicio, data_fim
-            )
-        else:
-            erro = "Informe duas datas válidas e em ordem."
+                if operacao:
+                    operacoes = [operacao]
+            except ValueError:
+                erro = "Informe um ID numérico válido."
 
-    return render_template("pesquisar.html",operacoes=operacoes,tipo=tipo,termo=termo,data_inicio=data_inicio,data_fim=data_fim,erro=erro,pesquisou=bool(termo or data_inicio or data_fim))
+    elif tipo == "ativo":
+        pesquisou = bool(termo_ativo)
+
+        if termo_ativo:
+            operacoes = Operacao.verificar_ativo(termo_ativo)
+
+    elif tipo == "data":
+        pesquisou = bool(data)
+
+        if data:
+            operacoes = Operacao.verificar_periodo(data, data)
+
+    else:
+        erro = "Selecione um tipo de pesquisa."
+
+    return render_template(
+        "pesquisar.html",
+        operacoes=operacoes,
+        tipo=tipo,
+        termo=termo,
+        termo_ativo=termo_ativo,
+        data=data,
+        erro=erro,
+        pesquisou=pesquisou
+    )
 
 
 def detalhes_operacao():
