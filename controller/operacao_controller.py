@@ -37,7 +37,8 @@ def pesquisar_operacao():
     tipo = request.args.get("tipo", "id")
     termo = request.args.get("termo", "").strip()
     termo_ativo = request.args.get("termo_ativo", "").strip().upper()
-    data = request.args.get("data", "")
+    data_inicio = request.args.get("data_inicio", "")
+    data_fim = request.args.get("data_fim", "")
 
     operacoes = []
     erro = None
@@ -62,10 +63,17 @@ def pesquisar_operacao():
             operacoes = Operacao.verificar_ativo(termo_ativo)
 
     elif tipo == "data":
-        pesquisou = bool(data)
+        pesquisou = bool(data_inicio or data_fim)
 
-        if data:
-            operacoes = Operacao.verificar_periodo(data, data)
+        if data_inicio and data_fim:
+            if data_inicio > data_fim:
+                erro = "A data inicial não pode ser posterior à data final."
+            else:
+                operacoes = Operacao.verificar_periodo(
+                    data_inicio, data_fim
+                )
+        elif not data_inicio or not data_fim:
+            erro = "Informe a data inicial e a data final."
 
     else:
         erro = "Selecione um tipo de pesquisa."
@@ -73,12 +81,13 @@ def pesquisar_operacao():
     return render_template(
         "pesquisar.html",
         operacoes=operacoes,
+        erro=erro,
+        pesquisou=pesquisou,
         tipo=tipo,
         termo=termo,
         termo_ativo=termo_ativo,
-        data=data,
-        erro=erro,
-        pesquisou=pesquisou
+        data_inicio=data_inicio,
+        data_fim=data_fim
     )
 
 

@@ -1,4 +1,4 @@
-
+```html
 {% extends "base.html" %}
 
 {% block title %}Pesquisar operações | FinControl{% endblock %}
@@ -16,7 +16,7 @@
             <select class="form-select" id="tipo" name="tipo">
                 <option value="id" {% if tipo == 'id' %}selected{% endif %}>ID</option>
                 <option value="ativo" {% if tipo == 'ativo' %}selected{% endif %}>Código do ativo</option>
-                <option value="data" {% if tipo == 'data' %}selected{% endif %}>Data</option>
+                <option value="data" {% if tipo == 'data' %}selected{% endif %}>Período de datas</option>
             </select>
         </div>
 
@@ -36,9 +36,17 @@
         </div>
 
         <div class="mb-3 d-none" id="campo-data">
-            <label for="data" class="form-label">Data da operação</label>
-            <input type="date" class="form-control" id="data" name="data"
-                   value="{{ data if tipo == 'data' else '' }}">
+            <label for="data_inicio" class="form-label">Data inicial</label>
+            <input type="date" class="form-control" id="data_inicio"
+                   name="data_inicio"
+                   value="{{ data_inicio if tipo == 'data' else '' }}">
+        </div>
+
+        <div class="mb-3 d-none" id="campo-data-fim">
+            <label for="data_fim" class="form-label">Data final</label>
+            <input type="date" class="form-control" id="data_fim"
+                   name="data_fim"
+                   value="{{ data_fim if tipo == 'data' else '' }}">
         </div>
 
         <button type="submit" class="btn btn-primary-custom">
@@ -89,6 +97,9 @@
     </div>
 {% endif %}
 
-<script src="{{ url_for('static', filename='js/pesquisar.js') }}"></script>
-
 {% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pesquisar.js') }}"></script>
+{% endblock %}
+```
