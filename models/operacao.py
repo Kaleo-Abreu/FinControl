@@ -1,5 +1,5 @@
-
 from daos.operacao_dao import OperacaoDAO
+import math
 from utils.validacoes import codigo_valido, data_valida
 
 
@@ -17,6 +17,7 @@ class Operacao:
         self.errors = []
 
         data = self._dados.get("data")
+
         if not data_valida(data):
             self.errors.append("Informe uma data válida.")
 
@@ -27,18 +28,10 @@ class Operacao:
                 "O ativo deve ter quatro letras maiúsculas "
                 "seguidas de um ou dois números."
             )
-        else:
-            operacoes_existentes = OperacaoDAO.buscar_por_ativo(ativo)
-
-            for operacao_existente in operacoes_existentes:
-                if operacao_existente["id"] != id_ignorar:
-                    self.errors.append(
-                        "Esse código de ativo já está cadastrado."
-                    )
-                    break
 
         try:
             quantidade = int(self._dados.get("quantidade"))
+
             if quantidade <= 0:
                 raise ValueError
         except (TypeError, ValueError):
@@ -48,17 +41,28 @@ class Operacao:
             )
 
         try:
-            valor_unitario = float(
-                str(self._dados.get("valor_unitario", "")).replace(",", ".")
-            )
-            if valor_unitario <= 0:
+            valor_texto = str(
+                self._dados.get("valor_unitario", "")
+            ).replace(",", ".")
+
+            valor_unitario = float(valor_texto)
+
+            if not math.isfinite(valor_unitario) or valor_unitario <= 0:
                 raise ValueError
+
+            if round(valor_unitario, 2) != valor_unitario:
+                self.errors.append(
+                    "O valor unitário deve ter no máximo duas casas decimais."
+                )
         except (TypeError, ValueError):
             valor_unitario = 0
-            self.errors.append("O valor unitário deve ser positivo.")
+            self.errors.append(
+                "O valor unitário deve ser um número positivo."
+            )
 
         try:
             tipo_operacao = int(self._dados.get("tipo_operacao"))
+
             if tipo_operacao not in self.TIPO_OPERACAO:
                 raise ValueError
         except (TypeError, ValueError):
@@ -97,32 +101,31 @@ class Operacao:
 
         OperacaoDAO.inserir(self._dados)
         return True
-    
+
     @staticmethod
     def exibir_operacoes():
         return OperacaoDAO.listar()
-    
+
     @staticmethod
     def verificar_id(id_operacao):
         return OperacaoDAO.buscar_por_id(id_operacao)
-    
+
     @staticmethod
     def verificar_ativo(ativo):
         return OperacaoDAO.buscar_por_ativo(ativo)
-    
+
     @staticmethod
     def verificar_periodo(data_inicio, data_fim):
         return OperacaoDAO.buscar_por_periodo(data_inicio, data_fim)
-    
+
     @staticmethod
     def atualizar_operacao(id_operacao, dados):
         return OperacaoDAO.atualizar(id_operacao, dados)
-    
+
     @staticmethod
     def excluir_operacao(id_operacao):
         return OperacaoDAO.excluir(id_operacao)
 
-    
     @property
     def id(self):
         return self._dados.get("id")

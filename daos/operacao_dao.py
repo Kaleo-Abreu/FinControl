@@ -1,4 +1,7 @@
+
 from daos.conexao import conectar
+
+
 class OperacaoDAO:
 
     @staticmethod
@@ -10,22 +13,16 @@ class OperacaoDAO:
                 "SELECT MAX(id) AS maior_id FROM operacoes"
             ).fetchone()
 
-            if resultado["maior_id"] is None:
-                novo_id = 1000000
-            else:
-                novo_id = resultado["maior_id"] + 1
+            novo_id = (
+                1000000
+                if resultado["maior_id"] is None
+                else resultado["maior_id"] + 1
+            )
 
             conexao.execute("""
                 INSERT INTO operacoes (
-                    id,
-                    data,
-                    ativo,
-                    quantidade,
-                    valor_unitario,
-                    tipo_operacao,
-                    valor_bruto,
-                    taxas,
-                    valor_liquido
+                    id, data, ativo, quantidade, valor_unitario,
+                    tipo_operacao, valor_bruto, taxas, valor_liquido
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
@@ -50,17 +47,14 @@ class OperacaoDAO:
         finally:
             conexao.close()
 
-
     @staticmethod
     def listar():
         conexao = conectar()
 
         try:
-            operacoes = conexao.execute(
+            return conexao.execute(
                 "SELECT * FROM operacoes ORDER BY data DESC"
             ).fetchall()
-
-            return operacoes
         finally:
             conexao.close()
 
@@ -69,12 +63,10 @@ class OperacaoDAO:
         conexao = conectar()
 
         try:
-            operacao = conexao.execute(
+            return conexao.execute(
                 "SELECT * FROM operacoes WHERE id = ?",
                 (id_operacao,)
             ).fetchone()
-
-            return operacao
         finally:
             conexao.close()
 
@@ -83,12 +75,10 @@ class OperacaoDAO:
         conexao = conectar()
 
         try:
-            operacao = conexao.execute(
+            return conexao.execute(
                 "SELECT * FROM operacoes WHERE ativo = ? ORDER BY data DESC",
                 (ativo,)
             ).fetchall()
-
-            return operacao
         finally:
             conexao.close()
 
@@ -97,16 +87,17 @@ class OperacaoDAO:
         conexao = conectar()
 
         try:
-            operacao = conexao.execute(
-                "SELECT * FROM operacoes WHERE data BETWEEN ? AND ? ORDER BY data DESC",
+            return conexao.execute(
+                """
+                SELECT * FROM operacoes
+                WHERE data BETWEEN ? AND ?
+                ORDER BY data DESC
+                """,
                 (data_inicio, data_fim)
             ).fetchall()
-
-            return operacao
         finally:
             conexao.close()
 
-    
     @staticmethod
     def atualizar(id_operacao, dados):
         conexao = conectar()
@@ -145,7 +136,6 @@ class OperacaoDAO:
         finally:
             conexao.close()
 
-    
     @staticmethod
     def excluir(id_operacao):
         conexao = conectar()
@@ -155,10 +145,11 @@ class OperacaoDAO:
                 "DELETE FROM operacoes WHERE id = ?",
                 (id_operacao,)
             )
-
             conexao.commit()
+
         except Exception:
             conexao.rollback()
             raise
+
         finally:
             conexao.close()

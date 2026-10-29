@@ -1,3 +1,4 @@
+```html
 {% extends "base.html" %}
 
 {% block title %}Operações | FinControl{% endblock %}
@@ -38,17 +39,20 @@
                             <td>R$ {{ "%.2f"|format(operacao["valor_bruto"]) }}</td>
                             <td>R$ {{ "%.2f"|format(operacao["taxas"]) }}</td>
                             <td>R$ {{ "%.2f"|format(operacao["valor_liquido"]) }}</td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
+
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center gap-2 flex-nowrap">
                                     <a href="{{ url_for('detalhes_operacao', id=operacao['id']) }}"
-                                       class="btn btn-sm btn-outline-primary"
-                                       title="Ver detalhes"
-                                       aria-label="Ver detalhes">
+                                       class="btn btn-sm btn-outline-primary d-inline-flex align-items-center justify-content-center"
+                                       style="width: 34px; height: 34px;"
+                                       title="Visualizar operação"
+                                       aria-label="Visualizar operação">
                                         <i class="bi bi-eye"></i>
                                     </a>
 
                                     <a href="{{ url_for('editar_operacao', id_operacao=operacao['id']) }}"
-                                       class="btn btn-sm btn-outline-warning"
+                                       class="btn btn-sm btn-outline-warning d-inline-flex align-items-center justify-content-center"
+                                       style="width: 34px; height: 34px;"
                                        title="Editar operação"
                                        aria-label="Editar operação">
                                         <i class="bi bi-pencil"></i>
@@ -56,9 +60,11 @@
 
                                     <form action="{{ url_for('excluir_operacao', id_operacao=operacao['id']) }}"
                                           method="POST"
+                                          class="m-0"
                                           onsubmit="return confirm('Tem certeza de que deseja excluir esta operação?');">
                                         <button type="submit"
-                                                class="btn btn-sm btn-outline-danger"
+                                                class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center"
+                                                style="width: 34px; height: 34px;"
                                                 title="Excluir operação"
                                                 aria-label="Excluir operação">
                                             <i class="bi bi-trash"></i>
@@ -83,3 +89,4 @@
     </a>
 </div>
 {% endblock %}
+```
